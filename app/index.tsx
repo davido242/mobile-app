@@ -6,8 +6,9 @@ export default function Index() {
    interface Pokemon {
     name: string;
     image: string;
+    imageBack: string;
   }
-  const [loading, setLodaing] = useState("Loading.....");
+  const [loading, setLodaing] = useState("Loading...........");
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
   useEffect(() => {
     fetchPokemons(); 
@@ -25,6 +26,7 @@ export default function Index() {
           return {
             name: pok.name,
             image: details.sprites.front_default,
+            imageBack: details.sprites.back_default,
           }
         })
       );
@@ -36,15 +38,20 @@ export default function Index() {
   }
   return (
     <ScrollView style={{ padding: 20, marginTop: 50 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", display: "flex", justifyContent: "center" }}>Pokedex</Text>
-      {loading && <Text style={{ padding: 10, marginTop: 100, borderRadius: 20, borderWidth: 1, borderColor: "black", backgroundColor: "lightgray", color: "black" }}>{loading}</Text>}
+      {loading && <Text style={{ margin: "auto", width: 200, padding: 10, marginTop: 100, borderRadius: 20, borderWidth: 1, borderColor: "black", backgroundColor: "lightgray", color: "black" }}>{loading}</Text>}
       {pokemon.map((pok) => (
-        <View>
+        <View key={pok.name} style={{ marginBottom: 20, borderWidth: 1, borderColor: "black", padding: 10, borderRadius: 20 }}>
             <Text key={pok.name}>{pok.name}</Text>
-            <Image
-              source={{ uri: pok.image }}
-              style={{ width: 100, height: 100 }}
-            />
+            <View style={{ flexDirection: "row", justifyContent: "space-around", marginTop: 10 }}>
+              <Image
+                source={{ uri: pok.image }}
+                style={{ width: 100, height: 100 }}
+              />
+              <Image
+                source={{ uri: pok.imageBack }}
+                style={{ width: 100, height: 100 }}
+              />
+              </View>
         </View>
         
       ))}
